@@ -1,0 +1,86 @@
+:host { display: block; }
+
+/* Filter panel */
+.filter-panel {
+  padding: 10px 14px;
+  background: rgba(0,212,255,0.03);
+  border: 1px solid rgba(0,212,255,0.1);
+  border-radius: 10px 10px 0 0;
+  border-bottom: none;
+}
+
+.filter-panel-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(0,212,255,0.5);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.filter-active-badge {
+  padding: 1px 7px;
+  background: rgba(0,212,255,0.12);
+  border: 1px solid rgba(0,212,255,0.25);
+  border-radius: 99px;
+  color: #00d4ff;
+}
+
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: flex-end;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 110px;
+}
+
+.filter-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #334155;
+  text-transform: uppercase;
+}
+
+.filter-select,
+.filter-input {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid #1a2844;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 12px;
+  color: #dde4f0;
+  outline: none;
+  transition: border-color 0.14s;
+}
+
+.filter-select { appearance: none; cursor: pointer; }
+.filter-select option { background: #0b1220; }
+
+.filter-select:focus,
+.filter-input:focus {
+  border-color: rgba(0,212,255,0.35);
+}
+
+.filter-clear {
+  padding: 5px 14px;
+  font-size: 11px;
+  color: #475569;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.14s;
+  align-self: flex-end;
+}
+
+.filter-clear:hover { color: #ef4444; border-color: rgba(239,68,68,0.3); }

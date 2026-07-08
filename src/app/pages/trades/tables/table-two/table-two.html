@@ -1,0 +1,94 @@
+<section class="table-section">
+
+  <!-- ── Section Header ─────────────────────────────────────────────────────── -->
+  <div class="section-header">
+    <div class="section-title-row">
+      <div class="section-badge badge-t2">T2</div>
+      <div>
+        <h2 class="section-title">Inline Edit · Simulated Infinite Scroll</h2>
+        <p class="section-sub">
+          Infinite Row Model — server-side simulation with latency
+          @if (isLoading()) { · <span class="loading-dot">● Loading…</span> }
+          @else { · {{ totalRows() | number }} matching rows }
+        </p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="action-btn btn-add" (click)="addNewRow()" aria-label="Add new trade row">
+        + Add Row
+      </button>
+      <button type="button" class="action-btn btn-danger" (click)="deleteSelected()"
+        [disabled]="!selectedRow()" aria-label="Delete selected row">
+        ✕ Delete
+      </button>
+      <button type="button" class="action-btn" (click)="exportCsv()" aria-label="Export loaded rows as CSV">
+        ↓ CSV
+      </button>
+      <button type="button" class="action-btn" (click)="showPanel.set(!showPanel())"
+        [class.active]="showPanel()" aria-label="Toggle column panel">
+        ⊞ Columns
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Server Simulation Info Badge ──────────────────────────────────────── -->
+  <div class="server-info-bar">
+    <span class="server-badge">⚡ SIMULATED SERVER</span>
+    <span>IDatasource · getRows() simulates 150–400ms latency · 500 rows in-memory "backend" · click any cell to edit inline</span>
+  </div>
+
+  <!-- ── Toolbar: global search ─────────────────────────────────────────────── -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input
+        type="search"
+        class="global-search"
+        placeholder="Global search — reloads datasource…"
+        [value]="quickFilter()"
+        (input)="quickFilter.set($any($event.target).value)"
+        aria-label="Search T2 table"
+      />
+    </div>
+    <span class="row-count">{{ totalRows() | number }} rows</span>
+  </div>
+
+  <!-- ── AG Grid ────────────────────────────────────────────────────────────── -->
+  <div class="grid-wrapper" #gridContainer>
+    <ag-grid-angular
+      class="ag-theme-quartz-dark nexus-grid"
+      style="width: 100%; height: 440px;"
+      [columnDefs]="colDefs"
+      [defaultColDef]="defaultColDef"
+      rowModelType="infinite"
+      [cacheBlockSize]="50"
+      [cacheOverflowSize]="2"
+      [maxConcurrentDatasourceRequests]="2"
+      [infiniteInitialRowCount]="50"
+      [maxBlocksInCache]="10"
+      [rowSelection]="'single'"
+      [animateRows]="true"
+      (gridReady)="onGridReady($event)"
+      (rowSelected)="onRowSelected($event)"
+      (cellValueChanged)="onCellValueChanged($event)"
+      (sortChanged)="onSortChanged()"
+      (filterChanged)="onFilterChanged()"
+    />
+  </div>
+
+  <!-- ── Footer Controls ────────────────────────────────────────────────────── -->
+  <app-grid-footer
+    [gridApi]="gridApi()"
+    tableLabel="T2"
+    [rowCount]="totalRows()"
+    [zoom]="zoom()"
+    (zoomChange)="zoom.set($event)"
+  />
+</section>
+
+<!-- ── Column Panel ─────────────────────────────────────────────────────────── -->
+<app-grid-column-panel
+  [open]="showPanel()"
+  [gridApi]="gridApi()"
+  (close)="showPanel.set(false)"
+/>

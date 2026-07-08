@@ -319,7 +319,166 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* ─── Scrollbars ─────────────────────────────────────────────────────────── */
+/* ─── AG Grid Dark Theme Overrides ────────────────────────────────────────── */
+.ag-theme-quartz-dark.nexus-grid {
+  --ag-background-color:               #080d1a;
+  --ag-header-background-color:        #0b1220;
+  --ag-odd-row-background-color:       rgba(255,255,255,0.012);
+  --ag-row-hover-color:                rgba(0,212,255,0.045);
+  --ag-selected-row-background-color:  rgba(0,212,255,0.08);
+  --ag-foreground-color:               #94a3b8;
+  --ag-header-foreground-color:        #64748b;
+  --ag-border-color:                   #1a2844;
+  --ag-row-border-color:               rgba(255,255,255,0.035);
+  --ag-cell-horizontal-border:         rgba(255,255,255,0.04);
+  --ag-accent-color:                   #00d4ff;
+  --ag-range-selection-border-color:   rgba(0,212,255,0.5);
+  --ag-font-size:                      12px;
+  --ag-font-family:                    'Inter', 'Segoe UI', system-ui, sans-serif;
+  --ag-grid-size:                      4px;
+  --ag-icon-size:                      14px;
+  --ag-header-height:                  36px;
+  --ag-row-height:                     34px;
+  --ag-checkbox-checked-color:         #00d4ff;
+  --ag-input-focus-border-color:       rgba(0,212,255,0.4);
+  --ag-popup-background-color:         #0b1220;
+  --ag-filter-toolbar-background-color: #060912;
+  --ag-pagination-background-color:   #0b1220;
+  --ag-side-bar-panel-width:           250px;
+}
+
+/* Filter popup dark styling */
+.ag-theme-quartz-dark.nexus-grid .ag-filter {
+  background: #0b1220;
+  border: 1px solid #1a2844;
+}
+
+/* Pagination bar */
+.ag-theme-quartz-dark.nexus-grid .ag-paging-panel {
+  border-top: 1px solid #1a2844;
+  color: #475569;
+  font-size: 11px;
+}
+
+/* Loading overlay */
+.ag-theme-quartz-dark.nexus-grid .ag-overlay-loading-center {
+  background: rgba(6,9,18,0.85);
+  border: 1px solid #1a2844;
+  border-radius: 8px;
+  color: #00d4ff;
+  font-size: 12px;
+  padding: 10px 20px;
+}
+
+/* ─── Shared Table Section Styles ─────────────────────────────────────────── */
+.table-section {
+  background: #080d1a;
+  border: 1px solid #1a2844;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #0b1220;
+  border-bottom: 1px solid #1a2844;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.section-title-row { display: flex; align-items: center; gap: 10px; }
+
+.section-badge {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+  flex-shrink: 0;
+}
+
+.badge-t1 { background: rgba(0,212,255,0.12); color: #67e8f9; border: 1px solid rgba(0,212,255,0.25); }
+.badge-t2 { background: rgba(249,115,22,0.12); color: #fb923c; border: 1px solid rgba(249,115,22,0.25); }
+
+.section-title {
+  font-size: 14px; font-weight: 700; color: #dde4f0; margin: 0;
+}
+
+.section-sub { font-size: 10px; color: #334155; margin: 0; }
+
+.header-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+.action-btn {
+  padding: 5px 12px;
+  font-size: 11px; font-weight: 600;
+  color: #4a6080;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.14s;
+  white-space: nowrap;
+}
+
+.action-btn:hover:not(:disabled) {
+  color: #94a3b8;
+  border-color: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+}
+
+.action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.action-btn.btn-add {
+  color: #34d399;
+  border-color: rgba(16,185,129,0.25);
+  background: rgba(16,185,129,0.06);
+}
+.action-btn.btn-add:hover { border-color: rgba(16,185,129,0.5); background: rgba(16,185,129,0.12); }
+
+.action-btn.btn-danger {
+  color: #f87171;
+  border-color: rgba(239,68,68,0.2);
+  background: rgba(239,68,68,0.04);
+}
+.action-btn.btn-danger:hover:not(:disabled) { border-color: rgba(239,68,68,0.45); background: rgba(239,68,68,0.1); }
+
+.action-btn.active { color: #00d4ff; border-color: rgba(0,212,255,0.35); background: rgba(0,212,255,0.08); }
+
+/* Toolbar (search + row count above grid) */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px;
+  background: #06090f;
+  border-bottom: 1px solid #1a2844;
+  gap: 10px;
+}
+
+.search-wrap { position: relative; flex: 1; max-width: 360px; }
+.search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #334155; font-size: 14px; pointer-events: none; }
+
+.global-search {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  padding: 6px 10px 6px 28px;
+  font-size: 12px; color: #dde4f0; outline: none;
+  transition: all 0.15s;
+}
+
+.global-search::placeholder { color: #334155; }
+.global-search:focus { border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.03); }
+
+.row-count { font-size: 10px; font-family: 'Courier New', monospace; color: #334155; white-space: nowrap; }
+
+/* Grid wrapper — applies zoom via CSS var */
+.grid-wrapper {
+  --ag-font-size: 12px; /* overridden by zoom JS */
+}
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius: 99px; }

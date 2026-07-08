@@ -1,0 +1,148 @@
+<section class="table-section">
+
+  <!-- ── Section Header ─────────────────────────────────────────────────────── -->
+  <div class="section-header">
+    <div class="section-title-row">
+      <div class="section-badge badge-t1">T1</div>
+      <div>
+        <h2 class="section-title">Signal Form Controlled Grid</h2>
+        <p class="section-sub">External signal form drives filtering · Client-side pagination</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="action-btn btn-add" (click)="openAdd()" aria-label="Add new trade">
+        + Add
+      </button>
+      <button type="button" class="action-btn" (click)="openEdit()"
+        [disabled]="!selectedRow()" aria-label="Edit selected trade">
+        ✎ Edit
+      </button>
+      <button type="button" class="action-btn btn-danger" (click)="deleteSelected()"
+        [disabled]="!selectedRow()" aria-label="Delete selected trade">
+        ✕ Delete
+      </button>
+      <button type="button" class="action-btn" (click)="exportCsv()" aria-label="Export to CSV">
+        ↓ CSV
+      </button>
+      <button type="button" class="action-btn" (click)="showPanel.set(!showPanel())"
+        [class.active]="showPanel()" aria-label="Toggle column configuration panel">
+        ⊞ Columns
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Signal Form Filter Panel ───────────────────────────────────────────── -->
+  <div class="filter-panel">
+    <div class="filter-panel-label">
+      <span>⬡ Signal Form Filter</span>
+      @if (filterForm().dirty()) {
+        <span class="filter-active-badge">● ACTIVE</span>
+      }
+    </div>
+
+    <form [formRoot]="filterForm" class="filter-controls" novalidate>
+      <!-- Direction -->
+      <div class="filter-field">
+        <label class="filter-label" for="t1-dir">Direction</label>
+        <select id="t1-dir" class="filter-select" [formField]="filterForm.direction">
+          @for (d of filterDirections; track d) { <option [value]="d">{{ d }}</option> }
+        </select>
+      </div>
+
+      <!-- Status -->
+      <div class="filter-field">
+        <label class="filter-label" for="t1-status">Status</label>
+        <select id="t1-status" class="filter-select" [formField]="filterForm.status">
+          @for (s of filterStatuses; track s) { <option [value]="s">{{ s }}</option> }
+        </select>
+      </div>
+
+      <!-- Desk -->
+      <div class="filter-field">
+        <label class="filter-label" for="t1-desk">Desk</label>
+        <select id="t1-desk" class="filter-select" [formField]="filterForm.desk">
+          @for (d of filterDesks; track d) { <option [value]="d">{{ d }}</option> }
+        </select>
+      </div>
+
+      <!-- P&L Min -->
+      <div class="filter-field">
+        <label class="filter-label" for="t1-pnlmin">P&amp;L Min</label>
+        <input id="t1-pnlmin" type="number" class="filter-input" [formField]="filterForm.pnlMin"
+          placeholder="-∞" />
+      </div>
+
+      <!-- P&L Max -->
+      <div class="filter-field">
+        <label class="filter-label" for="t1-pnlmax">P&amp;L Max</label>
+        <input id="t1-pnlmax" type="number" class="filter-input" [formField]="filterForm.pnlMax"
+          placeholder="+∞" />
+      </div>
+
+      <button type="button" class="filter-clear" (click)="clearFilters()">Clear</button>
+    </form>
+  </div>
+
+  <!-- ── Toolbar: global search ─────────────────────────────────────────────── -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input
+        type="search"
+        class="global-search"
+        placeholder="Search all columns…"
+        [value]="quickFilter()"
+        (input)="quickFilter.set($any($event.target).value)"
+        aria-label="Search T1 table"
+      />
+    </div>
+    <span class="row-count">{{ rowCount() | number }} rows</span>
+  </div>
+
+  <!-- ── AG Grid ────────────────────────────────────────────────────────────── -->
+  <div class="grid-wrapper" #gridContainer>
+    <ag-grid-angular
+      class="ag-theme-quartz-dark nexus-grid"
+      style="width: 100%; height: 420px;"
+      [columnDefs]="colDefs"
+      [defaultColDef]="defaultColDef"
+      [rowData]="rowData()"
+      [rowSelection]="'single'"
+      [pagination]="true"
+      [paginationPageSize]="15"
+      [paginationPageSizeSelector]="[10, 15, 25, 50]"
+      [animateRows]="true"
+      [isExternalFilterPresent]="isExternalFilterPresent"
+      [doesExternalFilterPass]="doesExternalFilterPass"
+      (gridReady)="onGridReady($event)"
+      (rowSelected)="onRowSelected($event)"
+      (sortChanged)="onSortChanged()"
+      (filterChanged)="onFilterChanged()"
+    />
+  </div>
+
+  <!-- ── Footer Controls ────────────────────────────────────────────────────── -->
+  <app-grid-footer
+    [gridApi]="gridApi()"
+    tableLabel="T1"
+    [rowCount]="rowCount()"
+    [zoom]="zoom()"
+    (zoomChange)="zoom.set($event)"
+  />
+</section>
+
+<!-- ── Column Panel ────────────────────────────────────────────────────────── -->
+<app-grid-column-panel
+  [open]="showPanel()"
+  [gridApi]="gridApi()"
+  (close)="showPanel.set(false)"
+/>
+
+<!-- ── Trade Form Dialog ────────────────────────────────────────────────────── -->
+@if (showDialog()) {
+  <app-trade-form-dialog
+    [editingTrade]="editingTrade()"
+    (saved)="onSaved($event)"
+    (cancel)="showDialog.set(false)"
+  />
+}

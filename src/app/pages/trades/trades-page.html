@@ -1,0 +1,29 @@
+<div class="trades-page">
+
+  <div class="page-header">
+    <div class="page-title-row">
+      <h1 class="page-title">
+        <span class="page-icon">⬡</span>
+        Trade Management
+      </h1>
+      <p class="page-sub">Two AG Grid tables · Community v36 · Angular Signal Forms integration</p>
+    </div>
+    <div class="page-legend">
+      <span class="legend-item">
+        <span class="leg-dot cyan"></span>
+        T1: Signal Form Filter + Client-Side Pagination
+      </span>
+      <span class="legend-sep">·</span>
+      <span class="legend-item">
+        <span class="leg-dot orange"></span>
+        T2: Inline Edit + Simulated Infinite Scroll
+      </span>
+    </div>
+  </div>
+
+  <app-table-one />
+  <app-table-two />
+
+  <app-grid-audit-trail (revertRequest)="onRevert($event)" />
+
+</div>

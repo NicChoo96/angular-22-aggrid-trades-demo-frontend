@@ -1,0 +1,33 @@
+:host { display: block; }
+
+.server-info-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: rgba(249,115,22,0.04);
+  border: 1px solid rgba(249,115,22,0.1);
+  border-radius: 10px 10px 0 0;
+  border-bottom: none;
+  font-size: 11px;
+  color: #475569;
+}
+
+.server-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(249,115,22,0.7);
+  background: rgba(249,115,22,0.08);
+  border: 1px solid rgba(249,115,22,0.2);
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.loading-dot { color: #fbbf24; animation: blink 1s ease-in-out infinite; }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}

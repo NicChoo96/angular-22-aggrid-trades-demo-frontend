@@ -1,0 +1,60 @@
+:host { display: block; }
+
+.trades-page {
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 16px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.page-title-row { display: flex; flex-direction: column; gap: 4px; }
+
+.page-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #dde4f0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-icon { color: #00d4ff; font-size: 18px; }
+
+.page-sub {
+  font-size: 11px;
+  color: #334155;
+  margin: 0;
+}
+
+.page-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: #475569;
+  flex-wrap: wrap;
+}
+
+.legend-item { display: flex; align-items: center; gap: 6px; }
+
+.leg-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.leg-dot.cyan   { background: #00d4ff; box-shadow: 0 0 5px rgba(0,212,255,0.6); }
+.leg-dot.orange { background: #f97316; box-shadow: 0 0 5px rgba(249,115,22,0.6); }
+
+.legend-sep { color: #1a2844; }
