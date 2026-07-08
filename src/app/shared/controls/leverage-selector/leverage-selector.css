@@ -1,0 +1,102 @@
+:host {
+  display: block;
+}
+
+.leverage-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 22, 41, 0.8);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  outline: none;
+  min-width: 0;
+}
+
+.leverage-tile:hover:not(.tile-selected-safe):not(.tile-selected-warning):not(.tile-selected-danger) {
+  border-color: rgba(148, 163, 184, 0.3);
+  background: rgba(30, 45, 74, 0.7);
+  transform: translateY(-1px);
+}
+
+.tile-value {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  letter-spacing: -0.02em;
+}
+
+.tile-unselected .tile-value {
+  color: #64748b;
+}
+
+.tile-tag {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+/* Selected — safe (1x, 2x, 5x) */
+.tile-selected-safe {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.12);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.2), inset 0 0 8px rgba(16, 185, 129, 0.05);
+  transform: translateY(-1px);
+}
+
+.tile-selected-safe .tile-value {
+  color: #34d399;
+}
+
+.tile-selected-safe .tile-tag {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+/* Selected — warning (10x, 25x) */
+.tile-selected-warning {
+  border-color: rgba(245, 158, 11, 0.5);
+  background: rgba(245, 158, 11, 0.12);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.2), inset 0 0 8px rgba(245, 158, 11, 0.05);
+  transform: translateY(-1px);
+}
+
+.tile-selected-warning .tile-value {
+  color: #fbbf24;
+}
+
+.tile-selected-warning .tile-tag {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
+
+/* Selected — danger (50x, 100x) */
+.tile-selected-danger {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.12);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.25), inset 0 0 8px rgba(239, 68, 68, 0.05);
+  transform: translateY(-1px);
+  animation: danger-pulse 2s ease-in-out infinite;
+}
+
+.tile-selected-danger .tile-value {
+  color: #f87171;
+}
+
+.tile-selected-danger .tile-tag {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+@keyframes danger-pulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(239, 68, 68, 0.25), inset 0 0 8px rgba(239, 68, 68, 0.05); }
+  50%       { box-shadow: 0 0 20px rgba(239, 68, 68, 0.45), inset 0 0 12px rgba(239, 68, 68, 0.1); }
+}

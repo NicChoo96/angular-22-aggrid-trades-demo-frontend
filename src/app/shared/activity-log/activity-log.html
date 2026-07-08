@@ -1,0 +1,54 @@
+<section class="log-panel" aria-label="Activity Log">
+  <!-- Header -->
+  <div class="log-header">
+    <div class="flex items-center gap-2">
+      <span class="log-title">ACTIVITY LOG</span>
+      <span class="entry-count">{{ entryCount() }} events</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <!-- Filter buttons -->
+      <div class="filter-group" role="group" aria-label="Filter by form">
+        @for (f of filterOptions; track f) {
+          <button
+            type="button"
+            class="filter-btn"
+            [class.active]="filter() === f"
+            (click)="setFilter(f)"
+            [attr.aria-pressed]="filter() === f"
+          >{{ f }}</button>
+        }
+      </div>
+
+      <button
+        type="button"
+        class="clear-btn"
+        (click)="clear()"
+        aria-label="Clear activity log"
+      >Clear</button>
+    </div>
+  </div>
+
+  <!-- Entries -->
+  <div class="log-entries" role="log" aria-live="polite" aria-label="Form activity entries">
+    @if (filteredEntries().length === 0) {
+      <div class="log-empty">
+        <span class="empty-icon">⬡</span>
+        <span>No events yet. Interact with the forms to see live activity.</span>
+      </div>
+    } @else {
+      @for (entry of filteredEntries(); track trackById($index, entry)) {
+        <div class="log-entry log-entry-animate" [class]="'level-' + entry.level">
+          <span class="entry-time">{{ formatTime(entry.timestamp) }}</span>
+          <span class="entry-form-badge" [class]="formBadgeClass(entry.formId)">
+            {{ entry.formId }}
+          </span>
+          <span class="entry-level-badge" [class]="levelClass(entry.level)">
+            {{ entry.level.toUpperCase() }}
+          </span>
+          <span class="entry-message">{{ entry.message }}</span>
+        </div>
+      }
+    }
+  </div>
+</section>

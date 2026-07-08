@@ -1,0 +1,159 @@
+<section class="form-card form-c-card" aria-label="Form C — Risk Profile">
+
+  <!-- Card Header -->
+  <div class="card-header">
+    <div class="flex items-center gap-2">
+      <span class="form-badge badge-c">C</span>
+      <div>
+        <h2 class="card-title">Risk Profile</h2>
+        <p class="card-subtitle">Configure risk parameters</p>
+      </div>
+    </div>
+    <div class="status-chips">
+      @if (riskForm().dirty()) {
+        <span class="chip chip-dirty">● UNSAVED</span>
+      }
+      @if (riskForm().touched() && riskForm().invalid()) {
+        <span class="chip chip-invalid">✕ INVALID</span>
+      }
+      @if (savedId() && !riskForm().dirty()) {
+        <span class="chip chip-saved">✓ {{ savedId() }}</span>
+      }
+    </div>
+  </div>
+
+  <form [formRoot]="riskForm" class="card-body" novalidate>
+
+    <!-- Max Position Size -->
+    <div class="field-group">
+      <label class="field-label" for="maxPos">
+        Max Position Size (USD) <span class="required-star">*</span>
+      </label>
+      <div class="input-prefix-group">
+        <span class="input-prefix">$</span>
+        <input
+          id="maxPos"
+          type="number"
+          class="field-input with-prefix"
+          [class.is-invalid]="riskForm.maxPositionSize().touched() && riskForm.maxPositionSize().invalid()"
+          [formField]="riskForm.maxPositionSize"
+          placeholder="10000"
+        />
+      </div>
+      @if (riskForm.maxPositionSize().touched() && riskForm.maxPositionSize().invalid()) {
+        <p class="field-error">{{ riskForm.maxPositionSize().errors()[0].message }}</p>
+      }
+    </div>
+
+    <!-- ═══ EXOTIC CONTROLS ZONE ════════════════════════════════════════════ -->
+    <div class="exotic-zone">
+      <p class="exotic-zone-label">⬡ Interactive Risk Controls</p>
+
+      <!-- Stop Loss Dial + Take Profit -->
+      <div class="dial-row">
+
+        <!-- Stop Loss — RiskDial custom control -->
+        <div class="dial-field">
+          <label class="field-label text-center block">Stop Loss %</label>
+          <div class="flex justify-center">
+            <app-risk-dial
+              [formField]="riskForm.stopLossPercent"
+              [rangeMin]="0"
+              [rangeMax]="50"
+              dialLabel="STOP LOSS"
+              unit="%"
+            />
+          </div>
+          @if (riskForm.stopLossPercent().touched() && riskForm.stopLossPercent().invalid()) {
+            <p class="field-error text-center">{{ riskForm.stopLossPercent().errors()[0].message }}</p>
+          }
+        </div>
+
+        <!-- Take Profit — numeric with visual indicator -->
+        <div class="dial-field flex-1">
+          <label class="field-label" for="takeProfit">
+            Take Profit % <span class="required-star">*</span>
+          </label>
+          <input
+            id="takeProfit"
+            type="number"
+            class="field-input"
+            [class.is-invalid]="riskForm.takeProfitPercent().touched() && riskForm.takeProfitPercent().invalid()"
+            [formField]="riskForm.takeProfitPercent"
+            placeholder="6.0"
+            step="0.5"
+          />
+          <!-- R:R ratio indicator -->
+          @if (riskForm.stopLossPercent().value() > 0) {
+            <div class="rr-badge">
+              R:R {{ (riskForm.takeProfitPercent().value() / riskForm.stopLossPercent().value()).toFixed(2) }}
+            </div>
+          }
+          @if (riskForm.takeProfitPercent().touched() && riskForm.takeProfitPercent().invalid()) {
+            <p class="field-error">{{ riskForm.takeProfitPercent().errors()[0].message }}</p>
+          }
+        </div>
+      </div>
+
+      <!-- Risk Score Gauge — RiskScoreGauge custom control -->
+      <div class="field-group mt-3">
+        <label class="field-label">Risk Score</label>
+        <app-risk-score-gauge [formField]="riskForm.riskScore" />
+        @if (riskForm.riskScore().touched() && riskForm.riskScore().invalid()) {
+          <p class="field-error">{{ riskForm.riskScore().errors()[0].message }}</p>
+        }
+      </div>
+
+      <!-- Leverage Selector — LeverageSelector custom control -->
+      <div class="field-group mt-3">
+        <label class="field-label">Leverage Multiplier</label>
+        <app-leverage-selector [formField]="riskForm.leverage" />
+        @if (riskForm.leverage().touched() && riskForm.leverage().invalid()) {
+          <p class="field-error">{{ riskForm.leverage().errors()[0].message }}</p>
+        }
+      </div>
+
+      <!-- Hedge toggle -->
+      <div class="hedge-row">
+        <div>
+          <p class="field-label mb-0">Hedge Position</p>
+          <p class="text-xs text-slate-500">Open opposite trade to offset risk</p>
+        </div>
+        <label class="toggle-switch" [attr.aria-label]="'Hedge position toggle'">
+          <input
+            type="checkbox"
+            class="sr-only"
+            [formField]="riskForm.hedgeEnabled"
+            [attr.aria-checked]="riskModel().hedgeEnabled"
+          />
+          <span class="toggle-track" [class.is-on]="riskModel().hedgeEnabled">
+            <span class="toggle-thumb"></span>
+          </span>
+        </label>
+      </div>
+    </div>
+    <!-- ═══ END EXOTIC ZONE ══════════════════════════════════════════════════ -->
+
+    <!-- Actions -->
+    <div class="card-actions">
+      <button
+        type="button"
+        class="btn-ghost"
+        (click)="onReset()"
+        [disabled]="isSaving()"
+      >Reset</button>
+
+      <button
+        type="submit"
+        class="btn-primary btn-c"
+        [disabled]="isSaving() || (riskForm().touched() && riskForm().invalid())"
+      >
+        @if (isSaving()) {
+          <span class="btn-spinner"></span> Saving…
+        } @else {
+          Save Risk Profile
+        }
+      </button>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,165 @@
+<section class="form-card form-b-card" aria-label="Form B — Instrument Configuration">
+
+  <!-- Card Header -->
+  <div class="card-header">
+    <div class="flex items-center gap-2">
+      <span class="form-badge badge-b">B</span>
+      <div>
+        <h2 class="card-title">Instrument Config</h2>
+        <p class="card-subtitle">Define the trading instrument</p>
+      </div>
+    </div>
+    <div class="status-chips">
+      @if (instrumentForm().dirty()) {
+        <span class="chip chip-dirty" title="Form has unsaved changes">● UNSAVED</span>
+      }
+      @if (instrumentForm().touched() && instrumentForm().invalid()) {
+        <span class="chip chip-invalid" title="Form has errors">✕ INVALID</span>
+      }
+      @if (savedId() && !instrumentForm().dirty()) {
+        <span class="chip chip-saved" title="Saved instrument ID">✓ {{ savedId() }}</span>
+      }
+    </div>
+  </div>
+
+  <!-- Form -->
+  <form [formRoot]="instrumentForm" class="card-body" novalidate>
+
+    <!-- Symbol -->
+    <div class="field-group">
+      <label class="field-label" for="symbol">
+        Symbol <span class="required-star">*</span>
+      </label>
+      <input
+        id="symbol"
+        type="text"
+        class="field-input"
+        [class.is-invalid]="instrumentForm.symbol().touched() && instrumentForm.symbol().invalid()"
+        [formField]="instrumentForm.symbol"
+        placeholder="e.g. AAPL"
+        autocomplete="off"
+        style="text-transform: uppercase"
+      />
+      @if (instrumentForm.symbol().touched() && instrumentForm.symbol().invalid()) {
+        <p class="field-error">{{ instrumentForm.symbol().errors()[0].message }}</p>
+      }
+    </div>
+
+    <!-- Exchange + Asset Class -->
+    <div class="field-row">
+      <div class="field-group">
+        <label class="field-label" for="exchange">
+          Exchange <span class="required-star">*</span>
+        </label>
+        <select
+          id="exchange"
+          class="field-input field-select"
+          [class.is-invalid]="instrumentForm.exchange().touched() && instrumentForm.exchange().invalid()"
+          [formField]="instrumentForm.exchange"
+        >
+          <option value="">— Select —</option>
+          @for (ex of exchanges; track ex) {
+            <option [value]="ex">{{ ex }}</option>
+          }
+        </select>
+        @if (instrumentForm.exchange().touched() && instrumentForm.exchange().invalid()) {
+          <p class="field-error">{{ instrumentForm.exchange().errors()[0].message }}</p>
+        }
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="assetClass">
+          Asset Class <span class="required-star">*</span>
+        </label>
+        <select
+          id="assetClass"
+          class="field-input field-select"
+          [class.is-invalid]="instrumentForm.assetClass().touched() && instrumentForm.assetClass().invalid()"
+          [formField]="instrumentForm.assetClass"
+        >
+          <option value="">— Select —</option>
+          @for (ac of assetClasses; track ac) {
+            <option [value]="ac">{{ ac }}</option>
+          }
+        </select>
+        @if (instrumentForm.assetClass().touched() && instrumentForm.assetClass().invalid()) {
+          <p class="field-error">{{ instrumentForm.assetClass().errors()[0].message }}</p>
+        }
+      </div>
+    </div>
+
+    <!-- Currency + Lot Size -->
+    <div class="field-row">
+      <div class="field-group">
+        <label class="field-label" for="currency">
+          Currency <span class="required-star">*</span>
+        </label>
+        <select
+          id="currency"
+          class="field-input field-select"
+          [class.is-invalid]="instrumentForm.currency().touched() && instrumentForm.currency().invalid()"
+          [formField]="instrumentForm.currency"
+        >
+          <option value="">— Select —</option>
+          @for (c of currencies; track c) {
+            <option [value]="c">{{ c }}</option>
+          }
+        </select>
+        @if (instrumentForm.currency().touched() && instrumentForm.currency().invalid()) {
+          <p class="field-error">{{ instrumentForm.currency().errors()[0].message }}</p>
+        }
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="lotSize">
+          Lot Size <span class="required-star">*</span>
+        </label>
+        <input
+          id="lotSize"
+          type="number"
+          class="field-input"
+          [class.is-invalid]="instrumentForm.lotSize().touched() && instrumentForm.lotSize().invalid()"
+          [formField]="instrumentForm.lotSize"
+          placeholder="100"
+        />
+        @if (instrumentForm.lotSize().touched() && instrumentForm.lotSize().invalid()) {
+          <p class="field-error">{{ instrumentForm.lotSize().errors()[0].message }}</p>
+        }
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="field-group">
+      <label class="field-label" for="description">Description</label>
+      <input
+        id="description"
+        type="text"
+        class="field-input"
+        [formField]="instrumentForm.description"
+        placeholder="Optional instrument notes"
+      />
+    </div>
+
+    <!-- Actions -->
+    <div class="card-actions">
+      <button
+        type="button"
+        class="btn-ghost"
+        (click)="onReset()"
+        [disabled]="isSaving()"
+      >Reset</button>
+
+      <button
+        type="submit"
+        class="btn-primary btn-b"
+        [disabled]="isSaving() || (instrumentForm().touched() && instrumentForm().invalid())"
+      >
+        @if (isSaving()) {
+          <span class="btn-spinner"></span> Saving…
+        } @else {
+          Save Instrument
+        }
+      </button>
+    </div>
+  </form>
+</section>

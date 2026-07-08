@@ -1,0 +1,201 @@
+:host {
+  display: block;
+}
+
+.log-panel {
+  background: rgba(9, 14, 30, 0.95);
+  border: 1px solid rgba(30, 45, 74, 0.8);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(15, 22, 41, 0.9);
+  border-bottom: 1px solid rgba(30, 45, 74, 0.7);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.log-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #64748b;
+}
+
+.entry-count {
+  font-size: 10px;
+  color: #334155;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Filter buttons */
+.filter-group {
+  display: flex;
+  gap: 2px;
+}
+
+.filter-btn {
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #475569;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.filter-btn:hover {
+  color: #94a3b8;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.filter-btn.active {
+  color: #e2e8f0;
+  background: rgba(0, 212, 255, 0.1);
+  border-color: rgba(0, 212, 255, 0.3);
+}
+
+.clear-btn {
+  padding: 3px 12px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #475569;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.clear-btn:hover {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Entries list */
+.log-entries {
+  height: 200px;
+  overflow-y: auto;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
+
+.log-entries::-webkit-scrollbar {
+  width: 4px;
+}
+.log-entries::-webkit-scrollbar-track {
+  background: transparent;
+}
+.log-entries::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+}
+
+.log-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 8px;
+  color: #334155;
+  font-size: 12px;
+}
+
+.empty-icon {
+  font-size: 24px;
+  opacity: 0.3;
+}
+
+/* Individual entry */
+.log-entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-size: 11.5px;
+  line-height: 1.3;
+  flex-shrink: 0;
+}
+
+.log-entry-animate {
+  animation: slideInLog 0.18s ease-out both;
+}
+
+@keyframes slideInLog {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.level-info    { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.04); }
+.level-success { background: rgba(16,185,129,0.06);  border-color: rgba(16,185,129,0.12); }
+.level-warning { background: rgba(245,158,11,0.06);  border-color: rgba(245,158,11,0.12); }
+.level-error   { background: rgba(239,68,68,0.06);   border-color: rgba(239,68,68,0.12); }
+
+.entry-time {
+  font-size: 10px;
+  font-family: 'Courier New', monospace;
+  color: #334155;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Form badges */
+.entry-form-badge {
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.form-badge-a   { background: rgba(139,92,246,0.2);  color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+.form-badge-b   { background: rgba(0,212,255,0.15);  color: #67e8f9; border: 1px solid rgba(0,212,255,0.25); }
+.form-badge-c   { background: rgba(249,115,22,0.15); color: #fb923c; border: 1px solid rgba(249,115,22,0.25); }
+.form-badge-sys { background: rgba(100,116,139,0.15); color: #94a3b8; border: 1px solid rgba(100,116,139,0.2); }
+
+/* Level badges */
+.entry-level-badge {
+  flex-shrink: 0;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.badge-info    { background: rgba(148,163,184,0.1); color: #64748b; }
+.badge-success { background: rgba(16,185,129,0.15); color: #34d399; }
+.badge-warning { background: rgba(245,158,11,0.15); color: #fbbf24; }
+.badge-error   { background: rgba(239,68,68,0.15);  color: #f87171; }
+
+.entry-message {
+  color: #94a3b8;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Courier New', monospace;
+}

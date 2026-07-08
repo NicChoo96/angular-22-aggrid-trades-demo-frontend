@@ -1,0 +1,97 @@
+/* Form C — Risk Profile */
+:host { display: block; }
+
+.form-c-card { --form-accent: #f97316; }
+
+.exotic-zone {
+  margin: 4px 0;
+  padding: 14px;
+  background: rgba(249, 115, 22, 0.04);
+  border: 1px solid rgba(249, 115, 22, 0.12);
+  border-radius: 10px;
+}
+
+.exotic-zone-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(249, 115, 22, 0.6);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.dial-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.dial-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rr-badge {
+  margin-top: 4px;
+  padding: 3px 8px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 6px;
+  font-size: 11px;
+  font-family: 'Courier New', monospace;
+  color: #a78bfa;
+  display: inline-block;
+}
+
+.hedge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.mb-0 { margin-bottom: 0; }
+
+/* Toggle switch */
+.toggle-switch {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.toggle-track {
+  display: block;
+  width: 44px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.toggle-track.is-on {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #475569;
+  transition: all 0.25s ease;
+}
+
+.toggle-track.is-on .toggle-thumb {
+  left: calc(100% - 3px - 16px);
+  background: #34d399;
+}

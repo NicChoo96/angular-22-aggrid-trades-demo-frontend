@@ -1,0 +1,120 @@
+<div class="skills-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────────────────────────── -->
+  <aside class="skills-sidebar" aria-label="Signal Forms skill sections">
+
+    <div class="sidebar-header">
+      <h2 class="sidebar-title">Signal Forms</h2>
+      <p class="sidebar-subtitle">Angular 22 Reference</p>
+      <div class="sidebar-meta">{{ totalSnippets() }} templates · copy-ready</div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-wrapper">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input
+        type="search"
+        class="search-input"
+        placeholder="Search snippets…"
+        [value]="searchQuery()"
+        (input)="searchQuery.set($any($event.target).value)"
+        aria-label="Search skill snippets"
+      />
+    </div>
+
+    <!-- Section Nav -->
+    <nav class="section-nav" aria-label="Skill sections">
+      @for (section of sections; track section.id) {
+        <button
+          type="button"
+          class="nav-item"
+          [class.is-active]="activeSection() === section.id"
+          [style.--nav-accent]="section.accent"
+          (click)="setSection(section.id)"
+          [attr.aria-current]="activeSection() === section.id ? 'page' : null"
+        >
+          <span class="nav-icon" aria-hidden="true">{{ section.icon }}</span>
+          <span class="nav-label">{{ section.title }}</span>
+          <span class="nav-count">{{ section.snippets.length }}</span>
+        </button>
+      }
+    </nav>
+
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────────────────────────── -->
+  <main class="skills-main" aria-label="Skill snippets">
+
+    <!-- Section Header -->
+    <div class="section-hero" [style.--hero-accent]="activeData().accent">
+      <div class="hero-icon">{{ activeData().icon }}</div>
+      <div>
+        <h1 class="hero-title">{{ activeData().title }}</h1>
+        <p class="hero-desc">
+          {{ filteredSnippets().length }} snippet{{ filteredSnippets().length === 1 ? '' : 's' }}
+          @if (searchQuery()) {
+            <span class="search-filter"> matching "{{ searchQuery() }}"</span>
+          }
+        </p>
+      </div>
+    </div>
+
+    <!-- Snippets Grid -->
+    <div class="snippets-grid">
+      @if (filteredSnippets().length === 0) {
+        <div class="empty-state">
+          <span class="empty-icon">⬡</span>
+          <p>No snippets match your search.</p>
+        </div>
+      }
+
+      @for (snippet of filteredSnippets(); track snippet.id) {
+        <article class="snippet-card" [attr.aria-label]="snippet.title">
+
+          <!-- Card Header -->
+          <div class="snippet-header">
+            <div class="snippet-title-row">
+              <h3 class="snippet-title">{{ snippet.title }}</h3>
+              <button
+                type="button"
+                class="copy-btn"
+                [class.is-copied]="copiedId() === snippet.id"
+                (click)="copyToClipboard(snippet)"
+                [attr.aria-label]="copiedId() === snippet.id ? 'Copied!' : 'Copy code snippet'"
+              >
+                @if (copiedId() === snippet.id) {
+                  <span class="copy-icon">✓</span>
+                  <span>Copied!</span>
+                } @else {
+                  <span class="copy-icon">⎘</span>
+                  <span>Copy</span>
+                }
+              </button>
+            </div>
+            <p class="snippet-desc">{{ snippet.description }}</p>
+            <div class="snippet-tags">
+              @for (tag of snippet.tags; track tag) {
+                <span class="tag" [style.--tag-accent]="sectionAccent(activeSection())">
+                  {{ tag }}
+                </span>
+              }
+            </div>
+          </div>
+
+          <!-- Code Block -->
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span class="code-lang">TypeScript / Angular</span>
+              <div class="code-dots" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+            <pre class="code-block"><code>{{ snippet.code }}</code></pre>
+          </div>
+
+        </article>
+      }
+    </div>
+
+  </main>
+</div>

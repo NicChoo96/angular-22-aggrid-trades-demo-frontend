@@ -1,0 +1,84 @@
+:host {
+  display: block;
+}
+
+.dial-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+}
+
+.dial-wrapper.is-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.dial-svg {
+  width: 140px;
+  height: 140px;
+  cursor: pointer;
+  touch-action: none;
+  transition: filter 0.2s ease;
+}
+
+.dial-svg:hover {
+  filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.15));
+}
+
+.dial-svg.dragging {
+  cursor: grabbing;
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.25));
+}
+
+.track-value {
+  transition: stroke 0.3s ease;
+}
+
+.dial-value-text {
+  font-size: 16px;
+  font-weight: 700;
+  fill: #e2e8f0;
+  font-family: 'Courier New', monospace;
+}
+
+.dial-unit-text {
+  font-size: 9px;
+  font-weight: 500;
+  fill: #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+.dial-label-text {
+  font-size: 7px;
+  fill: #64748b;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dial-thumb {
+  cursor: grab;
+  transition: r 0.15s ease;
+}
+
+.dial-thumb:hover,
+.dial-thumb.thumb-dragging {
+  r: 7;
+  cursor: grabbing;
+}
+
+.dial-error {
+  font-size: 11px;
+  color: #f87171;
+  text-align: center;
+  margin-top: 2px;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.is-invalid .dial-svg {
+  filter: drop-shadow(0 0 4px rgba(248, 113, 113, 0.3));
+}

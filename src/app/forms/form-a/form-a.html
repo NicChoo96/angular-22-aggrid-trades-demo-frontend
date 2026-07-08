@@ -1,0 +1,212 @@
+<section class="form-card form-a-card" aria-label="Form A — Master Trade Order">
+
+  <!-- Card Header -->
+  <div class="card-header">
+    <div class="flex items-center gap-2">
+      <span class="form-badge badge-a">A</span>
+      <div>
+        <h2 class="card-title">Trade Order</h2>
+        <p class="card-subtitle">Master form — saves B + C + A together</p>
+      </div>
+    </div>
+    <div class="status-chips">
+      @if (formHasChanges()) {
+        <span class="chip chip-dirty">● UNSAVED</span>
+      }
+      @if (orderForm().touched() && orderForm().invalid()) {
+        <span class="chip chip-invalid">✕ INVALID</span>
+      }
+      @if (lastSavedOrderId()) {
+        <span class="chip chip-saved">✓ {{ lastSavedOrderId() }}</span>
+      }
+    </div>
+  </div>
+
+  <!-- Coordinator Status Bar -->
+  <div class="coordinator-bar">
+    <div class="coord-item" [class.has-id]="instrumentId()">
+      <span class="coord-icon">{{ instrumentId() ? '✓' : '○' }}</span>
+      <div>
+        <span class="coord-label">Instrument</span>
+        <span class="coord-id">{{ instrumentId() || 'Not saved' }}</span>
+      </div>
+    </div>
+    <div class="coord-divider">→</div>
+    <div class="coord-item" [class.has-id]="riskProfileId()">
+      <span class="coord-icon">{{ riskProfileId() ? '✓' : '○' }}</span>
+      <div>
+        <span class="coord-label">Risk Profile</span>
+        <span class="coord-id">{{ riskProfileId() || 'Not saved' }}</span>
+      </div>
+    </div>
+    <div class="coord-divider">→</div>
+    <div class="coord-item" [class.has-id]="lastSavedOrderId()">
+      <span class="coord-icon">{{ lastSavedOrderId() ? '✓' : '○' }}</span>
+      <div>
+        <span class="coord-label">Order</span>
+        <span class="coord-id">{{ lastSavedOrderId() || 'Pending' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <form class="card-body" novalidate (submit)="$event.preventDefault()">
+
+    <!-- Trade Name -->
+    <div class="field-group">
+      <label class="field-label" for="tradeName">
+        Trade Name <span class="required-star">*</span>
+      </label>
+      <input
+        id="tradeName"
+        type="text"
+        class="field-input"
+        [class.is-invalid]="orderForm.tradeName().touched() && orderForm.tradeName().invalid()"
+        [formField]="orderForm.tradeName"
+        placeholder="e.g. AAPL Long Breakout Q3"
+        autocomplete="off"
+      />
+      @if (orderForm.tradeName().touched() && orderForm.tradeName().invalid()) {
+        <p class="field-error">{{ orderForm.tradeName().errors()[0].message }}</p>
+      }
+    </div>
+
+    <!-- Direction (custom toggle) -->
+    <div class="field-group">
+      <label class="field-label">Direction <span class="required-star">*</span></label>
+      <div class="direction-toggle" role="group" aria-label="Trade direction">
+        <button
+          type="button"
+          class="dir-btn dir-buy"
+          [class.active]="orderModel().direction === 'BUY'"
+          (click)="setDirection('BUY')"
+          aria-label="Buy direction"
+          [attr.aria-pressed]="orderModel().direction === 'BUY'"
+        >▲ BUY</button>
+        <button
+          type="button"
+          class="dir-btn dir-sell"
+          [class.active]="orderModel().direction === 'SELL'"
+          (click)="setDirection('SELL')"
+          aria-label="Sell direction"
+          [attr.aria-pressed]="orderModel().direction === 'SELL'"
+        >▼ SELL</button>
+      </div>
+    </div>
+
+    <!-- Order Type + Quantity -->
+    <div class="field-row">
+      <div class="field-group">
+        <label class="field-label" for="orderType">
+          Order Type <span class="required-star">*</span>
+        </label>
+        <select
+          id="orderType"
+          class="field-input field-select"
+          [class.is-invalid]="orderForm.orderType().touched() && orderForm.orderType().invalid()"
+          [formField]="orderForm.orderType"
+        >
+          @for (ot of orderTypes; track ot) {
+            <option [value]="ot">{{ ot }}</option>
+          }
+        </select>
+        @if (orderForm.orderType().touched() && orderForm.orderType().invalid()) {
+          <p class="field-error">{{ orderForm.orderType().errors()[0].message }}</p>
+        }
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="quantity">
+          Quantity <span class="required-star">*</span>
+        </label>
+        <input
+          id="quantity"
+          type="number"
+          class="field-input"
+          [class.is-invalid]="orderForm.quantity().touched() && orderForm.quantity().invalid()"
+          [formField]="orderForm.quantity"
+          placeholder="1"
+        />
+        @if (orderForm.quantity().touched() && orderForm.quantity().invalid()) {
+          <p class="field-error">{{ orderForm.quantity().errors()[0].message }}</p>
+        }
+      </div>
+    </div>
+
+    <!-- Limit / Stop Price (conditional on order type) -->
+    @if (showPrice()) {
+      <div class="field-group">
+        <label class="field-label" for="limitPrice">
+          {{ orderModel().orderType === 'LIMIT' ? 'Limit' : 'Stop' }} Price (USD)
+          <span class="required-star">*</span>
+        </label>
+        <div class="input-prefix-group">
+          <span class="input-prefix">$</span>
+          <input
+            id="limitPrice"
+            type="number"
+            class="field-input with-prefix"
+            [class.is-invalid]="orderForm.limitPrice().touched() && orderForm.limitPrice().invalid()"
+            [formField]="orderForm.limitPrice"
+            placeholder="0.00"
+            step="0.01"
+          />
+        </div>
+        @if (orderForm.limitPrice().touched() && orderForm.limitPrice().invalid()) {
+          <p class="field-error">{{ orderForm.limitPrice().errors()[0].message }}</p>
+        }
+      </div>
+    }
+
+    <!-- Notes -->
+    <div class="field-group">
+      <label class="field-label" for="notes">Notes</label>
+      <textarea
+        id="notes"
+        class="field-input field-textarea"
+        [formField]="orderForm.notes"
+        placeholder="Trade rationale, strategy notes…"
+        rows="2"
+      ></textarea>
+    </div>
+
+    <!-- ── Actions ─────────────────────────────────────────────────────────── -->
+    <div class="master-actions">
+
+      <!-- Secondary actions -->
+      <div class="flex gap-2">
+        <button
+          type="button"
+          class="btn-ghost"
+          (click)="onReset()"
+          [disabled]="isSaving()"
+        >Reset All</button>
+
+        <button
+          type="button"
+          class="btn-secondary"
+          (click)="onSaveOrderOnly()"
+          [disabled]="isSaving()"
+          title="Save only this order with currently saved B/C IDs"
+        >Save Order Only</button>
+      </div>
+
+      <!-- Primary: Save All -->
+      <button
+        type="button"
+        class="btn-save-all"
+        (click)="onSaveAll()"
+        [disabled]="isSaving()"
+        aria-label="Save all forms: Instrument, Risk Profile and Trade Order"
+      >
+        @if (isSaving()) {
+          <span class="save-all-spinner"></span>
+          <span>Saving All…</span>
+        } @else {
+          <span class="save-all-icon">⬡</span>
+          <span>Save All (B + C + A)</span>
+        }
+      </button>
+    </div>
+
+  </form>
+</section>
