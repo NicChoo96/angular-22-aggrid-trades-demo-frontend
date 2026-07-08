@@ -41,7 +41,9 @@ export class TableOneComponent implements OnInit {
 
   // ── Grid API ────────────────────────────────────────────────────────────────
   readonly gridApi = signal<GridApi | null>(null);
-  private readonly gridContainer = viewChild<ElementRef<HTMLDivElement>>('gridContainer');
+  /** Direct ref to <ag-grid-angular> — needed to set --ag-font-size inline
+   *  (inline styles beat CSS class declarations, fixing zoom). */
+  private readonly agGridEl = viewChild<ElementRef<HTMLElement>>('agGridEl');
 
   // ── UI State ────────────────────────────────────────────────────────────────
   readonly showPanel  = signal(false);
@@ -139,11 +141,11 @@ export class TableOneComponent implements OnInit {
       this.gridApi()?.setGridOption('quickFilterText', q);
     });
 
-    // Apply zoom
+    // Apply zoom — inline style overrides AG Grid's own --ag-font-size class declaration
     effect(() => {
       const z = this.zoom();
-      const el = this.gridContainer()?.nativeElement;
-      if (el) el.style.setProperty('--ag-font-size', `${Math.round(12 * z / 100)}px`);
+      const el = this.agGridEl()?.nativeElement;
+      if (el) el.style.setProperty('--ag-font-size', `${Math.round(14 * z / 100)}px`);
     });
   }
 

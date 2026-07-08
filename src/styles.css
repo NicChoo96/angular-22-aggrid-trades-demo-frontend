@@ -320,55 +320,287 @@ body {
 }
 
 /* ─── AG Grid Dark Theme Overrides ────────────────────────────────────────── */
+/*
+ * STRATEGY:
+ * 1. CSS custom-property overrides (two-class specificity > one-class)
+ * 2. Direct background/color rules with !important — these bypass the
+ *    CSS-variable chain and guarantee correct colours regardless of how
+ *    AG Grid resolves --ag-background-color internally.
+ * 3. styles.css is loaded AFTER ag-grid.css / ag-theme-quartz.css in
+ *    angular.json so same-specificity rules here also win by cascade order.
+ */
+
+/* ── CSS custom-property overrides ──────────────────────────────────────── */
 .ag-theme-quartz-dark.nexus-grid {
-  --ag-background-color:               #080d1a;
-  --ag-header-background-color:        #0b1220;
-  --ag-odd-row-background-color:       rgba(255,255,255,0.012);
-  --ag-row-hover-color:                rgba(0,212,255,0.045);
-  --ag-selected-row-background-color:  rgba(0,212,255,0.08);
-  --ag-foreground-color:               #94a3b8;
-  --ag-header-foreground-color:        #64748b;
-  --ag-border-color:                   #1a2844;
-  --ag-row-border-color:               rgba(255,255,255,0.035);
-  --ag-cell-horizontal-border:         rgba(255,255,255,0.04);
-  --ag-accent-color:                   #00d4ff;
-  --ag-range-selection-border-color:   rgba(0,212,255,0.5);
-  --ag-font-size:                      12px;
-  --ag-font-family:                    'Inter', 'Segoe UI', system-ui, sans-serif;
-  --ag-grid-size:                      4px;
-  --ag-icon-size:                      14px;
-  --ag-header-height:                  36px;
-  --ag-row-height:                     34px;
-  --ag-checkbox-checked-color:         #00d4ff;
-  --ag-input-focus-border-color:       rgba(0,212,255,0.4);
-  --ag-popup-background-color:         #0b1220;
-  --ag-filter-toolbar-background-color: #060912;
-  --ag-pagination-background-color:   #0b1220;
-  --ag-side-bar-panel-width:           250px;
+  --ag-active-color:               #00d4ff;
+  --ag-background-color:           #080d1a;
+  --ag-foreground-color:           #94a3b8;
+  --ag-data-color:                 #94a3b8;
+  --ag-secondary-foreground-color: #64748b;
+  --ag-disabled-foreground-color:  #334155;
+  --ag-header-background-color:    #0b1220;
+  --ag-header-foreground-color:    #64748b;
+  --ag-header-cell-hover-background-color:  rgba(0,212,255,0.05);
+  --ag-header-cell-moving-background-color: rgba(0,212,255,0.08);
+  --ag-header-column-resize-handle-color: rgba(0,212,255,0.25);
+  --ag-header-column-resize-handle-height: 50%;
+  --ag-header-column-resize-handle-width: 1px;
+  --ag-odd-row-background-color:       rgba(255,255,255,0.015);
+  --ag-row-hover-color:                rgba(0,212,255,0.05);
+  --ag-selected-row-background-color:  rgba(0,212,255,0.09);
+  --ag-column-hover-color:             rgba(0,212,255,0.025);
+  --ag-border-color:             #1a2844;
+  --ag-secondary-border-color:   rgba(255,255,255,0.05);
+  --ag-row-border-color:         rgba(255,255,255,0.04);
+  --ag-cell-horizontal-border:   none;
+  --ag-wrapper-border-radius:    0;
+  --ag-border-radius:            4px;
+  --ag-control-panel-background-color: #060912;
+  --ag-panel-background-color:         #0b1220;
+  --ag-panel-border-color:             #1a2844;
+  --ag-menu-background-color:          #0b1220;
+  --ag-menu-border-color:              #1a2844;
+  --ag-tooltip-background-color:       #0f1729;
+  --ag-popup-shadow:             0 4px 24px rgba(0,0,0,0.5);
+  --ag-card-shadow:              0 4px 24px rgba(0,0,0,0.5);
+  --ag-modal-overlay-background-color: rgba(4,8,17,0.65);
+  --ag-input-focus-border-color: rgba(0,212,255,0.5);
+  --ag-input-focus-box-shadow:   0 0 0 3px rgba(0,212,255,0.1);
+  --ag-input-border-color:       #1a2844;
+  --ag-input-disabled-background-color: rgba(255,255,255,0.02);
+  --ag-input-disabled-border-color: rgba(255,255,255,0.05);
+  --ag-checkbox-background-color: #080d1a;
+  --ag-checkbox-checked-color:   #00d4ff;
+  --ag-checkbox-unchecked-color: #334155;
+  --ag-range-selection-border-color:    rgba(0,212,255,0.6);
+  --ag-range-selection-background-color: rgba(0,212,255,0.08);
+  --ag-chip-background-color:    rgba(255,255,255,0.06);
+  --ag-chip-border-color:        #1a2844;
+  --ag-grid-size:   4px;
+  --ag-icon-size:   14px;
+  --ag-border-radius: 4px;
+  --ag-wrapper-background-color: #080d1a;
+  --ag-data-background-color:    #080d1a;
+  --ag-font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
 }
 
-/* Filter popup dark styling */
-.ag-theme-quartz-dark.nexus-grid .ag-filter {
-  background: #0b1220;
-  border: 1px solid #1a2844;
+/* ── Direct background/color rules — bypass variable chain ───────────────── */
+
+/* Root wrappers */
+.ag-theme-quartz-dark.nexus-grid .ag-root-wrapper,
+.ag-theme-quartz-dark.nexus-grid .ag-root-wrapper-body,
+.ag-theme-quartz-dark.nexus-grid .ag-root {
+  background-color: #080d1a !important;
+  color: #94a3b8;
+  border-color: #1a2844;
 }
 
-/* Pagination bar */
-.ag-theme-quartz-dark.nexus-grid .ag-paging-panel {
-  border-top: 1px solid #1a2844;
-  color: #475569;
+/* Body / viewport backgrounds */
+.ag-theme-quartz-dark.nexus-grid .ag-body,
+.ag-theme-quartz-dark.nexus-grid .ag-body-viewport,
+.ag-theme-quartz-dark.nexus-grid .ag-center-cols-viewport,
+.ag-theme-quartz-dark.nexus-grid .ag-center-cols-container,
+.ag-theme-quartz-dark.nexus-grid .ag-pinned-left-cols-container,
+.ag-theme-quartz-dark.nexus-grid .ag-pinned-right-cols-container,
+.ag-theme-quartz-dark.nexus-grid .ag-full-width-container,
+.ag-theme-quartz-dark.nexus-grid .ag-floating-top,
+.ag-theme-quartz-dark.nexus-grid .ag-floating-bottom {
+  background-color: #080d1a !important;
+}
+
+/* Rows */
+.ag-theme-quartz-dark.nexus-grid .ag-row {
+  background-color: #080d1a;
+  border-color: rgba(255,255,255,0.04) !important;
+  color: #94a3b8;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-row-odd {
+  background-color: rgb(85 3 3) !important;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-row-hover,
+.ag-theme-quartz-dark.nexus-grid .ag-row:hover {
+  background-color: rgba(0, 212, 255, 0.05) !important;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-row-selected,
+.ag-theme-quartz-dark.nexus-grid .ag-row-selected.ag-row-odd {
+  background-color: rgba(0, 212, 255, 0.09) !important;
+}
+
+/* Header */
+.ag-theme-quartz-dark.nexus-grid .ag-header,
+.ag-theme-quartz-dark.nexus-grid .ag-header-viewport,
+.ag-theme-quartz-dark.nexus-grid .ag-header-container,
+.ag-theme-quartz-dark.nexus-grid .ag-pinned-left-header,
+.ag-theme-quartz-dark.nexus-grid .ag-pinned-right-header {
+  background-color: #0b1220 !important;
+  border-bottom: 1px solid #1a2844 !important;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-header-row {
+  background-color: transparent !important;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-header-cell {
+  color: #64748b !important;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-header-cell-text {
+  color: #64748b;
   font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-header-cell:hover .ag-header-cell-text {
+  color: #94a3b8;
+}
+
+/* Column separator */
+.ag-theme-quartz-dark.nexus-grid .ag-header-cell::after,
+.ag-theme-quartz-dark.nexus-grid .ag-cell::after {
+  border-right-color: rgba(255,255,255,0.04) !important;
+}
+
+/* Cells */
+.ag-theme-quartz-dark.nexus-grid .ag-cell {
+  color: #94a3b8;
+  border-right-color: rgba(255,255,255,0.04);
+}
+
+/* Pagination */
+.ag-theme-quartz-dark.nexus-grid .ag-paging-panel {
+  background-color: #0b1220 !important;
+  border-top: 1px solid #1a2844 !important;
+  color: #475569 !important;
+  font-size: 11px;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-paging-page-summary-panel,
+.ag-theme-quartz-dark.nexus-grid .ag-paging-row-summary-panel {
+  color: #475569;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-paging-button:not(.ag-disabled) {
+  color: #64748b;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-paging-button:not(.ag-disabled):hover {
+  background: rgba(0,212,255,0.07);
+}
+
+/* Column / context menu */
+.ag-theme-quartz-dark.nexus-grid .ag-menu,
+.ag-theme-quartz-dark.nexus-grid .ag-popup-child {
+  background-color: #0b1220 !important;
+  border: 1px solid #1a2844 !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+  color: #94a3b8 !important;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-menu-option:hover,
+.ag-theme-quartz-dark.nexus-grid .ag-menu-option-active {
+  background-color: rgba(0,212,255,0.07) !important;
+}
+
+/* Filter popup */
+.ag-theme-quartz-dark.nexus-grid .ag-filter-body-wrapper,
+.ag-theme-quartz-dark.nexus-grid .ag-simple-filter-body-wrapper,
+.ag-theme-quartz-dark.nexus-grid .ag-filter-condition-panel {
+  background-color: #0b1220 !important;
+  color: #94a3b8;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-filter {
+  background-color: #0b1220 !important;
+  border: 1px solid #1a2844 !important;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-filter-apply-panel {
+  background-color: #0b1220 !important;
+  border-top: 1px solid #1a2844 !important;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-filter-select,
+.ag-theme-quartz-dark.nexus-grid .ag-filter-condition-operator {
+  color: #64748b;
+}
+
+/* Filter inputs */
+.ag-theme-quartz-dark.nexus-grid .ag-text-field-input,
+.ag-theme-quartz-dark.nexus-grid .ag-number-field-input,
+.ag-theme-quartz-dark.nexus-grid .ag-date-field-input {
+  background-color: rgba(255,255,255,0.05) !important;
+  border-color: #1a2844 !important;
+  color: #dde4f0 !important;
+  border-radius: 5px;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-text-field-input:focus,
+.ag-theme-quartz-dark.nexus-grid .ag-number-field-input:focus {
+  border-color: rgba(0,212,255,0.4) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,212,255,0.08) !important;
+}
+
+/* Picker/select in filters */
+.ag-theme-quartz-dark.nexus-grid .ag-picker-field-wrapper {
+  background-color: rgba(255,255,255,0.04) !important;
+  border-color: #1a2844 !important;
+  color: #94a3b8;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-picker-field-display {
+  color: #94a3b8;
+}
+
+/* Inline cell editor */
+.ag-theme-quartz-dark.nexus-grid .ag-cell-edit-wrapper,
+.ag-theme-quartz-dark.nexus-grid .ag-cell-editor {
+  background-color: #0f1729 !important;
+}
+
+.ag-theme-quartz-dark.nexus-grid .ag-cell-edit-wrapper .ag-text-field-input,
+.ag-theme-quartz-dark.nexus-grid .ag-cell-edit-wrapper .ag-number-field-input {
+  background-color: #0f1729 !important;
+  border-color: rgba(0,212,255,0.4) !important;
+  color: #dde4f0 !important;
+  box-shadow: 0 0 0 2px rgba(0,212,255,0.15) !important;
+}
+
+/* Status bar / floating filter toolbars */
+.ag-theme-quartz-dark.nexus-grid .ag-status-bar,
+.ag-theme-quartz-dark.nexus-grid .ag-filter-toolpanel-header,
+.ag-theme-quartz-dark.nexus-grid .ag-filter-toolpanel-search,
+.ag-theme-quartz-dark.nexus-grid .ag-panel-title-bar-title {
+  background-color: #0b1220 !important;
+  border-bottom-color: #1a2844 !important;
+  color: #64748b !important;
 }
 
 /* Loading overlay */
 .ag-theme-quartz-dark.nexus-grid .ag-overlay-loading-center {
-  background: rgba(6,9,18,0.85);
+  background-color: rgba(6,9,18,0.9) !important;
   border: 1px solid #1a2844;
   border-radius: 8px;
   color: #00d4ff;
-  font-size: 12px;
   padding: 10px 20px;
 }
+
+/* Icons */
+.ag-theme-quartz-dark.nexus-grid .ag-icon { color: #475569; }
+.ag-theme-quartz-dark.nexus-grid .ag-header-cell:hover .ag-icon,
+.ag-theme-quartz-dark.nexus-grid .ag-column-menu-button:hover .ag-icon,
+.ag-theme-quartz-dark.nexus-grid .ag-header-cell-menu-button:hover .ag-icon { color: #00d4ff; }
+
+/* Scrollbars */
+.ag-theme-quartz-dark.nexus-grid ::-webkit-scrollbar       { width: 5px; height: 5px; }
+.ag-theme-quartz-dark.nexus-grid ::-webkit-scrollbar-track  { background: transparent; }
+.ag-theme-quartz-dark.nexus-grid ::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.08); border-radius: 3px; }
+.ag-theme-quartz-dark.nexus-grid ::-webkit-scrollbar-thumb:hover { background: rgba(0,212,255,0.25); }
 
 /* ─── Shared Table Section Styles ─────────────────────────────────────────── */
 .table-section {
@@ -475,9 +707,9 @@ body {
 
 .row-count { font-size: 10px; font-family: 'Courier New', monospace; color: #334155; white-space: nowrap; }
 
-/* Grid wrapper — applies zoom via CSS var */
+/* Grid wrapper */
 .grid-wrapper {
-  --ag-font-size: 12px; /* overridden by zoom JS */
+  /* --ag-font-size is set inline on <ag-grid-angular> by the zoom effect */
 }
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }

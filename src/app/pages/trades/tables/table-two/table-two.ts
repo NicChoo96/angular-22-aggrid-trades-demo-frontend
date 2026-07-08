@@ -38,7 +38,8 @@ export class TableTwoComponent implements OnInit {
 
   // ── Grid API ────────────────────────────────────────────────────────────────
   readonly gridApi = signal<GridApi | null>(null);
-  private readonly gridContainer = viewChild<ElementRef<HTMLDivElement>>('gridContainer');
+  /** Direct ref to <ag-grid-angular> for inline zoom CSS variable. */
+  private readonly agGridEl = viewChild<ElementRef<HTMLElement>>('agGridEl');
 
   // ── UI ──────────────────────────────────────────────────────────────────────
   readonly showPanel   = signal(false);
@@ -201,11 +202,11 @@ export class TableTwoComponent implements OnInit {
       this.gridApi()?.setGridOption('datasource', this.buildDatasource());
     });
 
-    // Apply zoom
+    // Apply zoom — inline style overrides AG Grid's own --ag-font-size class declaration
     effect(() => {
       const z = this.zoom();
-      const el = this.gridContainer()?.nativeElement;
-      if (el) el.style.setProperty('--ag-font-size', `${Math.round(12 * z / 100)}px`);
+      const el = this.agGridEl()?.nativeElement;
+      if (el) el.style.setProperty('--ag-font-size', `${Math.round(14 * z / 100)}px`);
     });
   }
 
